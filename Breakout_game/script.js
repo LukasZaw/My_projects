@@ -29,7 +29,7 @@ for (let c = 0; c < brickColumnCount; c++) {
   bricks[c] = [];
   for (let r = 0; r < brickRowCount; r++) {
     bricks[c][r] = { x: 0, y: 0, status: 1 };
-    console.log(bricks);
+    //console.log(bricks);
   }
 }
 
@@ -96,13 +96,31 @@ function collisionDetection() {
     for (let r = 0; r < brickRowCount; r++) {
       let b = bricks[c][r];
       if (b.status === 1) {
+        let brickLeft = b.x;
+        let brickRight = b.x + brickWidth;
+        let brickTop = b.y;
+        let brickBottom = b.y + brickHeight;
+
         if (
-          x > b.x &&
-          x < b.x + brickWidth &&
-          y > b.y &&
-          y < b.y + brickHeight
+          x + ballRadius > brickLeft &&
+          x - ballRadius < brickRight &&
+          y + ballRadius > brickTop &&
+          y - ballRadius < brickBottom
         ) {
-          dy = -dy;
+          // Sprawdzamy z której strony piłka uderza
+          let ballFromLeft = x - dx < brickLeft;
+          let ballFromRight = x - dx > brickRight;
+          let ballFromTop = y - dy < brickTop;
+          let ballFromBottom = y - dy > brickBottom;
+
+          // Odbicie w odpowiednim kierunku
+          if (ballFromLeft || ballFromRight) {
+            dx = -dx;
+          }
+          if (ballFromTop || ballFromBottom) {
+            dy = -dy;
+          }
+
           b.status = 0;
         }
       }
@@ -121,11 +139,13 @@ function draw() {
   // wall bounce
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
+    console.log("Wall bounce");
   }
   if (y + dy < ballRadius) {
     dy = -dy;
-  } else if (y + dy > canvas.height - ballRadius) {
-    if (x > paddleX && x < paddleX + paddleWidth) {
+  } else if (y + dy > canvas.height - ballRadius * 1.5) {
+    console.log("x bounce");
+    if (x > paddleX - ballRadius && x < paddleX + paddleWidth + ballRadius) {
       dy = -dy;
     } else {
       //alert("Game Over");

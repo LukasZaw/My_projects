@@ -1,3 +1,11 @@
+* {
+  margin: 0;
+}
+
+body {
+  background-color: rgb(38, 39, 37);
+}
+
 canvas {
   background: #000;
   display: block;
