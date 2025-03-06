@@ -18,4 +18,11 @@ Welcome to my collection of web applications! This repo showcases my projects, w
 🖼 **Preview:**  
 <img src="images/breakout_game.png" width="600px">  
 
+### 2. 📄 **Flexbox Website Template**  
+📖 **Description:** A simple and responsive website template using HTML & CSS (Flexbox). This template includes a basic layout with a header, navigation, main content area, and footer.  
+🛠 **Technologies:** HTML, CSS (FlexBox)  
+🖼 **Preview:**  
+<img src="images/flexbox.png" width="600px">  
+
+
 ---
