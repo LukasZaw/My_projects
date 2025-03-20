@@ -14,14 +14,16 @@ Welcome to my collection of web applications! This repo showcases my projects, w
 ### 1. 🎮 **Breakout Game**  
 📖 **Description:** A browser-based game inspired by the classic Breakout, built using JavaScript.  
 🛠 **Technologies:** HTML, CSS, JavaScript (Canvas API)  
-🔗 **Play Here:** [Coming Soon](#)  
+🔗 **Play Here:** [Live](https://lukaszaw.github.io/My_projects/Breakout_game/)
+
 🖼 **Preview:**  
 <img src="images/breakout_game.png" width="600px">  
 
 ### 2. 📄 **Flexbox Website Template**  
 📖 **Description:** A simple and responsive website template using HTML & CSS (Flexbox). This template includes a basic layout with a header, navigation, main content area, and footer.  
 🛠 **Technologies:** HTML, CSS (FlexBox)  
-🖼 **Preview:**  
+🖼 **Preview:** [Live](https://lukaszaw.github.io/My_projects/Flexbox_website_template/)
+
 <img src="images/flexbox.png" width="600px">  
 
 
