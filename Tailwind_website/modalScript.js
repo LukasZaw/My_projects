@@ -16,3 +16,11 @@ function closeModal() {
     modal.classList.add("hidden");
   }, 300);
 }
+
+function toggleAccordion(id) {
+  const content = document.getElementById(id);
+
+  // Toggle visibility
+  content.classList.toggle("hidden");
+  content.classList.toggle("block");
+}
