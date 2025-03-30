@@ -24,3 +24,12 @@ function toggleAccordion(id) {
   content.classList.toggle("hidden");
   content.classList.toggle("block");
 }
+
+function scrollToSection() {
+  const id = "features";
+  const yOffset = -50;
+  const element = document.getElementById(id);
+  const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+  const section = document.getElementById("features");
+  window.scrollTo({ top: y, behavior: "smooth" });
+}

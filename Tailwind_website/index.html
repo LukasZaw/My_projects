@@ -50,6 +50,7 @@
           <!-- Button Call to Action -->
           <button
             class="bg-blue-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2"
+            onclick="scrollToSection()"
           >
             Get Started
           </button>
@@ -90,7 +91,7 @@
       </div>
     </section>
 
-    <section class="py-10 bg-gray-100">
+    <section class="py-10 bg-gray-100" id="features">
       <div class="container mx-auto px-6">
         <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">
           Our Features
@@ -193,7 +194,7 @@
       </div>
     </section>
 
-    <section class="py-16 bg-blue-500">
+    <section class="py-16 bg-gray-800">
       <div class="container mx-auto text-center px-6 text-white">
         <h2 class="text-3xl font-bold mb-4 text-white">Contact Us</h2>
         <p class="text-lg mb-8">
@@ -202,7 +203,7 @@
         </p>
         <button
           onclick="window.location.href='contact.html'"
-          class="bg-white text-blue-500 font-bold py-3 px-6 rounded-lg hover:bg-gray-200 transition duration-300"
+          class="bg-blue-500 font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300"
         >
           Go to Contact Page
         </button>
@@ -229,10 +230,10 @@
         <!-- Modal Footer -->
         <div class="flex justify-end">
           <button
-            onclick="window.location.href='contact.html'"
-            class="bg-white !text-blue-500 font-bold py-3 px-6 rounded-lg hover:bg-gray-200 transition duration-300"
+            class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            onclick="closeModal()"
           >
-            Go to Contact Page
+            Close
           </button>
         </div>
       </div>
