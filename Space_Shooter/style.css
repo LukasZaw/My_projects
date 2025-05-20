@@ -1,0 +1,24 @@
+body {
+  background: #111;
+  margin: 0;
+}
+canvas {
+  display: block;
+  margin: 30px auto;
+  background: #222;
+  border: 2px solid #fff;
+}
+#score {
+  color: #fff;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+  padding-top: 12px;
+}
+#game-over {
+  color: #fff;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 36px;
+  padding-top: 12px;
+}
