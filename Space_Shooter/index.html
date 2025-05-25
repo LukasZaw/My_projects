@@ -6,10 +6,25 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="score">Wynik: 0</div>
-    <div id="game-over" class="hidden">
 
-    <canvas id="game" width="500" height="700"></canvas>
+    <div class="main">
+      <div class="column" id="stats">
+        <h2>Statystyki Gracza</h2>
+        <p id="speed">Szybkość poruszania: 0</p>
+        <p id="shooting-speed">Szybkość strzelania: 0</p>
+
+        
+      </div>
+
+      <div class="column">
+        <div id="score">Wynik: 0</div>
+        <canvas id="game" width="500" height="740"></canvas>
+      </div>
+
+      <div class="column">Kolumna 3</div>
+  </div>
+
+    
 
     <script src="script.js"></script>
   </body>

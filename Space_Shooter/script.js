@@ -1,19 +1,36 @@
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 const scoreDiv = document.getElementById("score");
+const speedDiv = document.getElementById("speed");
+const shooting_speedDiv = document.getElementById("shooting-speed");
 
+const bgLayer1 = new Image();
+bgLayer1.src = "Images/PixelBackgroundSeamlessVertically.png";
+
+const playerImage = new Image();
+playerImage.src = "Images/PlayerBlue_01.png";
+const playerImageMove = new Image();
+playerImageMove.src = "Images/PlayerBlue_02.png";
+
+const asteroidImages = [new Image(), new Image(), new Image(), new Image()];
+asteroidImages[0].src = "Images/Asteroid_01.png";
+asteroidImages[2].src = "Images/Asteroid_03.png";
+asteroidImages[1].src = "Images/Asteroid_02.png";
+asteroidImages[3].src = "Images/Asteroid_04.png";
+
+let bg1X = 0;
 // State
 let score = 0;
 let gameOver = false;
 
 // Player
 const player = {
-  x: canvas.width / 2 - 20,
-  y: canvas.height - 60,
-  w: 40,
-  h: 40,
-  speed: 6,
-  color: "#0ff",
+  x: canvas.width / 2 - 30,
+  y: canvas.height - 70,
+  w: 60,
+  h: 60,
+  speed: 5,
+  shooting_speed: 6,
 };
 
 // Controls
@@ -42,30 +59,32 @@ function shoot() {
     speed: 7,
   });
 }
+
 let canShoot = true;
 function handleShooting() {
   if (space && canShoot) {
     shoot();
     canShoot = false;
-    setTimeout(() => (canShoot = true), 300);
+    setTimeout(() => (canShoot = true), player.shooting_speed * 100);
   }
 }
 
 // Enemies
 const enemies = [];
 function spawnEnemy() {
-  const size = 36;
+  const size = 30 + Math.random() * 16; // Random size between 40 and 80
   const x = Math.random() * (canvas.width - size);
+  const asteroidIndex = Math.floor(Math.random() * asteroidImages.length);
   enemies.push({
     x,
     y: -size,
     w: size,
     h: size,
     speed: 1 + Math.random() * 2,
-    color: "#f33",
+    asteroidIndex,
   });
 }
-setInterval(spawnEnemy, 900);
+setInterval(spawnEnemy, 400 + Math.random() * 800);
 
 // Collision
 function isColliding(a, b) {
@@ -74,15 +93,23 @@ function isColliding(a, b) {
   );
 }
 
-// Main loop
 function drawPlayer() {
-  ctx.fillStyle = player.color;
-  ctx.beginPath();
-  ctx.moveTo(player.x + player.w / 2, player.y);
-  ctx.lineTo(player.x, player.y + player.h);
-  ctx.lineTo(player.x + player.w, player.y + player.h);
-  ctx.closePath();
-  ctx.fill();
+  ctx.save();
+  if (left) {
+    ctx.drawImage(playerImageMove, player.x, player.y, player.w, player.h);
+  } else if (right) {
+    ctx.scale(-1, 1);
+    ctx.drawImage(
+      playerImageMove,
+      -player.x - player.w,
+      player.y,
+      player.w,
+      player.h
+    );
+  } else {
+    ctx.drawImage(playerImage, player.x, player.y, player.w, player.h);
+  }
+  ctx.restore();
 }
 
 function drawBullets() {
@@ -94,15 +121,26 @@ function drawBullets() {
 
 function drawEnemies() {
   for (const e of enemies) {
-    ctx.fillStyle = e.color;
-    ctx.fillRect(e.x, e.y, e.w, e.h);
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(e.x + e.w / 2 - 4, e.y + 8, 8, 8); // "cockpit"
+    const img = asteroidImages[e.asteroidIndex];
+    ctx.drawImage(img, e.x, e.y, e.w, e.h);
   }
+}
+
+function drawBackground() {
+  ctx.drawImage(bgLayer1, 0, bg1X, canvas.width, canvas.height);
+  ctx.drawImage(bgLayer1, 0, bg1X - canvas.height, canvas.width, canvas.height);
+
+  bg1X += 1;
+
+  if (bg1X >= canvas.height) bg1X = 0;
 }
 
 function update() {
   if (gameOver) return;
+
+  // Update UI
+  speedDiv.textContent = `Szybkość poruszania: ${player.speed}`;
+  shooting_speedDiv.textContent = `Szybkość strzelania: ${player.shooting_speed}`;
 
   // Move player
   if (left) player.x -= player.speed;
@@ -147,7 +185,11 @@ function update() {
 }
 
 function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // Czyścimy ekran
+
+  //rysujemy tło
+  drawBackground();
+
   drawPlayer();
   drawBullets();
   drawEnemies();
