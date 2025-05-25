@@ -18,10 +18,49 @@ asteroidImages[2].src = "Images/Asteroid_03.png";
 asteroidImages[1].src = "Images/Asteroid_02.png";
 asteroidImages[3].src = "Images/Asteroid_04.png";
 
-let bg1X = 0;
+const bulletFrames = [
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+];
+bulletFrames[0].src = "Images/Bullet_01.png";
+bulletFrames[1].src = "Images/Bullet_02.png";
+bulletFrames[2].src = "Images/Bullet_03.png";
+bulletFrames[3].src = "Images/Bullet_04.png";
+bulletFrames[4].src = "Images/Bullet_05.png";
+bulletFrames[5].src = "Images/Bullet_06.png";
+
+const explosionFrames = [
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+];
+explosionFrames[0].src = "Images/Explosion_01.png";
+explosionFrames[1].src = "Images/Explosion_02.png";
+explosionFrames[2].src = "Images/Explosion_03.png";
+explosionFrames[3].src = "Images/Explosion_04.png";
+explosionFrames[4].src = "Images/Explosion_05.png";
+explosionFrames[5].src = "Images/Explosion_06.png";
+explosionFrames[6].src = "Images/Explosion_07.png";
+explosionFrames[7].src = "Images/Explosion_08.png";
+explosionFrames[8].src = "Images/Explosion_09.png";
+
+const explosions = [];
+
 // State
 let score = 0;
 let gameOver = false;
+
+let bg1X = 0;
 
 // Player
 const player = {
@@ -52,11 +91,14 @@ document.addEventListener("keyup", (e) => {
 const bullets = [];
 function shoot() {
   bullets.push({
-    x: player.x + player.w / 2 - 3,
+    x: player.x + player.w / 2 - 12,
     y: player.y,
-    w: 6,
-    h: 16,
+    w: 24,
+    h: 32,
     speed: 7,
+    frameIndex: 0, // Dodaj pole na klatkę animacji
+    frameTimer: 0, // Timer do płynniejszej zmiany klatek
+    frameDelay: 10, // Co ile pętli zmienia się klatka (możesz dostosować)
   });
 }
 
@@ -72,7 +114,7 @@ function handleShooting() {
 // Enemies
 const enemies = [];
 function spawnEnemy() {
-  const size = 30 + Math.random() * 16; // Random size between 40 and 80
+  const size = 32 + Math.random() * 16;
   const x = Math.random() * (canvas.width - size);
   const asteroidIndex = Math.floor(Math.random() * asteroidImages.length);
   enemies.push({
@@ -113,9 +155,9 @@ function drawPlayer() {
 }
 
 function drawBullets() {
-  ctx.fillStyle = "#ff0";
   for (const b of bullets) {
-    ctx.fillRect(b.x, b.y, b.w, b.h);
+    // Rysujemy aktualną klatkę
+    ctx.drawImage(bulletFrames[b.frameIndex], b.x, b.y, b.w, b.h);
   }
 }
 
@@ -135,6 +177,23 @@ function drawBackground() {
   if (bg1X >= canvas.height) bg1X = 0;
 }
 
+function drawExplosions() {
+  for (const ex of explosions) {
+    ctx.save();
+    ctx.translate(ex.x + ex.w / 2, ex.y + ex.h / 2);
+    const scaledW = ex.w * ex.scale;
+    const scaledH = ex.h * ex.scale;
+    ctx.drawImage(
+      explosionFrames[ex.frameIndex],
+      -scaledW / 2,
+      -scaledH / 2,
+      scaledW,
+      scaledH
+    );
+    ctx.restore();
+  }
+}
+
 function update() {
   if (gameOver) return;
 
@@ -150,7 +209,17 @@ function update() {
   // Bullets
   for (let i = bullets.length - 1; i >= 0; i--) {
     bullets[i].y -= bullets[i].speed;
-    if (bullets[i].y + bullets[i].h < 0) bullets.splice(i, 1);
+
+    // Animacja
+    bullets[i].frameTimer++;
+    if (bullets[i].frameTimer >= bullets[i].frameDelay) {
+      bullets[i].frameIndex = (bullets[i].frameIndex + 1) % bulletFrames.length;
+      bullets[i].frameTimer = 0;
+    }
+
+    if (bullets[i].y + bullets[i].h < 0) {
+      bullets.splice(i, 1);
+    }
   }
 
   // Enemies
@@ -163,6 +232,17 @@ function update() {
   for (let i = enemies.length - 1; i >= 0; i--) {
     for (let j = bullets.length - 1; j >= 0; j--) {
       if (isColliding(enemies[i], bullets[j])) {
+        explosions.push({
+          x: enemies[i].x,
+          y: enemies[i].y,
+          w: enemies[i].w,
+          h: enemies[i].h,
+          frameIndex: 0,
+          frameTimer: 0,
+          frameDelay: 5,
+          scale: 0.7 + Math.random() * 0.8,
+        });
+
         enemies.splice(i, 1);
         bullets.splice(j, 1);
         score += 10;
@@ -177,22 +257,36 @@ function update() {
     if (isColliding(e, player)) {
       gameOver = true;
       setTimeout(() => {
-        alert("Koniec gry! Twój wynik: " + score);
+        //alert("Koniec gry! Twój wynik: " + score);
+
         window.location.reload();
       }, 100);
+    }
+  }
+
+  // Update explosions
+  for (let i = explosions.length - 1; i >= 0; i--) {
+    const ex = explosions[i];
+    ex.frameTimer++;
+    if (ex.frameTimer >= ex.frameDelay) {
+      ex.frameIndex++;
+      ex.frameTimer = 0;
+      if (ex.frameIndex >= explosionFrames.length) {
+        explosions.splice(i, 1);
+      }
     }
   }
 }
 
 function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height); // Czyścimy ekran
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  //rysujemy tło
   drawBackground();
 
   drawPlayer();
   drawBullets();
   drawEnemies();
+  drawExplosions();
 }
 
 function loop() {
