@@ -31,7 +31,7 @@ body {
 canvas {
   display: block;
   background: #222d;
-  border: 1px solid #fff;
+  border: 1px solid #00f6;
   margin: 10px auto 0 auto;
   box-shadow: 0 0 55px 10px #00f6, 0 0 80px 25px #0ff8;
   border-radius: 12px;
@@ -57,4 +57,29 @@ canvas:hover {
   background: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   box-shadow: 0 0 20px 4px #0ff4;
+}
+
+#player-name-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+#player-name-input {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #0ff;
+  font-size: 1em;
+}
+#player-name-form button {
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #0ff;
+  color: #222;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#player-name-form button:hover {
+  background: #0cc;
 }

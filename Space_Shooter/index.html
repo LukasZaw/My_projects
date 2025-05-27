@@ -9,11 +9,23 @@
     <div class="main">
       <div class="column" id="stats">
         <h2>Statystyki Gracza</h2>
+        <form id="player-name-form" style="display: none">
+          <input
+            type="text"
+            id="player-name-input"
+            placeholder="Podaj swoją nazwę"
+            maxlength="16"
+            required
+          />
+          <button type="submit">OK</button>
+        </form>
+        <p id="player-name"></p>
         <p id="speed">Szybkość poruszania: 0</p>
         <p id="shooting-speed">Szybkość strzelania: 0</p>
       </div>
 
       <div class="column">
+        <p id="player-message" style="color: #0ff; margin-bottom: 8px"></p>
         <div id="score">Wynik: 0</div>
         <canvas id="game" width="550" height="780"></canvas>
       </div>

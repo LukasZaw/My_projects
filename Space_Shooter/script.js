@@ -4,6 +4,18 @@ const scoreDiv = document.getElementById("score");
 const speedDiv = document.getElementById("speed");
 const shooting_speedDiv = document.getElementById("shooting-speed");
 
+//Player name
+const playerNameDiv = document.getElementById("player-name");
+
+let playerName = localStorage.getItem("playerName");
+if (!playerName) {
+  playerName = prompt("Podaj swoją nazwę gracza:");
+  if (!playerName || playerName.trim() === "") playerName = "Gracz";
+  localStorage.setItem("playerName", playerName);
+}
+playerNameDiv.textContent = "Gracz: " + playerName;
+
+//Loading all images
 const bgLayer1 = new Image();
 bgLayer1.src = "Images/PixelBackgroundSeamlessVertically.png";
 
