@@ -52,11 +52,23 @@ canvas:hover {
 }
 
 #stats {
+  margin: 16px;
   color: #fee;
-  padding: 16px;
+  padding: 12px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   box-shadow: 0 0 20px 4px #0ff4;
+  min-height: 300px;
+}
+
+#leaderboard {
+  margin: 16px;
+  color: #fee;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  box-shadow: 0 0 20px 4px #0ff4;
+  min-height: 300px;
 }
 
 #player-name-form {
@@ -82,4 +94,22 @@ canvas:hover {
 }
 #player-name-form button:hover {
   background: #0cc;
+}
+
+#reset-player-name {
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid #0ff;
+  background: #111c;
+  color: #0ff;
+  cursor: pointer;
+  margin-top: 2px;
+  margin-bottom: 8px;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+#reset-player-name:hover {
+  background: #0ff;
+  color: #111;
+  border: 1px solid #fff;
 }

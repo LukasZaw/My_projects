@@ -20,8 +20,15 @@
           <button type="submit">OK</button>
         </form>
         <p id="player-name"></p>
-        <p id="speed">Szybkość poruszania: 0</p>
-        <p id="shooting-speed">Szybkość strzelania: 0</p>
+        <button
+          id="reset-player-name"
+          style="font-size: 12px; margin-bottom: 8px"
+        >
+          Zmień nazwę gracza
+        </button>
+        <div id="asteroids-destroyed" style="margin: 8px">
+          Zestrzelone asteroidy: 0
+        </div>
       </div>
 
       <div class="column">
@@ -30,7 +37,10 @@
         <canvas id="game" width="550" height="780"></canvas>
       </div>
 
-      <div class="column">Kolumna 3</div>
+      <div class="column" id="leaderboard">
+        <h2>🏆 Leaderboard</h2>
+        <ol id="leaderboard-list"></ol>
+      </div>
     </div>
 
     <script type="module" src="script.js"></script>
