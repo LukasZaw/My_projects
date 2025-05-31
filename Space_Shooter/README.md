@@ -46,7 +46,7 @@ Kosmiczna gra zręcznościowa napisana w JavaScript, działająca w przeglądarc
 
 ## Wymagania
 
-- Nowoczesna przeglądarka obsługująca ES6 modules (np. Chrome, Firefox, Edge)
+- Przeglądarka obsługująca ES6 modules (np. Chrome, Firefox, Edge)
 - Wszystkie pliki graficzne i dźwiękowe muszą znajdować się w odpowiednich katalogach (`Images/`, `Sounds/`)
 
 ## Pliki
@@ -61,9 +61,6 @@ Kosmiczna gra zręcznościowa napisana w JavaScript, działająca w przeglądarc
 - `Images/` – grafiki gry (statki, asteroidy, wybuchy, tło, power-upy)
 - `Sounds/` – efekty dźwiękowe gry
 
-## Autor
-
-Projekt stworzony przez Łukasz.
 
 ---
 
