@@ -16,6 +16,7 @@ import {
   explosionFrames,
   powerupImage,
   shieldPowerupImage,
+  gameOverExplosionFrames, // Dodaj import
 } from "./assets.js";
 import {
   enemies,
@@ -82,6 +83,46 @@ setupPlayerControls();
 setEnemiesCanvas(canvas);
 startEnemySpawner();
 
+// Dodaj przełącznik wyciszenia
+let isMuted = localStorage.getItem("isMuted") === "true";
+
+// Dodaj przycisk wyciszenia do DOM
+const muteBtn = document.createElement("button");
+muteBtn.id = "mute-btn";
+// Zmień położenie na prawy dolny róg
+muteBtn.style.position = "fixed";
+muteBtn.style.bottom = "20px";
+muteBtn.style.right = "20px";
+muteBtn.style.zIndex = 1000;
+muteBtn.textContent = isMuted ? "🔇 Wyciszony" : "🔊 Dźwięk";
+document.body.appendChild(muteBtn);
+
+function updateMuteBtn() {
+  muteBtn.textContent = isMuted ? "🔇 Wyciszony" : "🔊 Dźwięk";
+}
+muteBtn.addEventListener("click", () => {
+  isMuted = !isMuted;
+  localStorage.setItem("isMuted", isMuted);
+  updateMuteBtn();
+});
+updateMuteBtn();
+
+// Dodaj dźwięk strzału
+const shootSound = new Audio("Sounds/Shooting_01.mp3");
+shootSound.volume = 0.07;
+
+// Dodaj dźwięk Level UP
+const levelUpSound = new Audio("Sounds/LevelUP.wav");
+levelUpSound.volume = 0.5;
+
+// Dodaj dźwięk eksplozji asteroidy
+const explosionSound = new Audio("Sounds/Explosion_01.wav");
+explosionSound.volume = 0.06;
+
+// Dodaj dźwięk przegranej (gracz trafiony)
+const playerExplosionSound = new Audio("Sounds/Explosion_02.wav");
+playerExplosionSound.volume = 0.25;
+
 // Bullets
 const bullets = [];
 function shoot() {
@@ -91,10 +132,17 @@ function shoot() {
     w: 24,
     h: 32,
     speed: 7,
-    frameIndex: 0, // Dodaj pole na klatkę animacji
-    frameTimer: 0, // Timer do płynniejszej zmiany klatek
-    frameDelay: 10, // Co ile pętli zmienia się klatka (możesz dostosować)
+    frameIndex: 0,
+    frameTimer: 0,
+    frameDelay: 10,
   });
+  // Odtwórz dźwięk strzału
+  if (!isMuted) {
+    try {
+      shootSound.currentTime = 0;
+      shootSound.play();
+    } catch (e) {}
+  }
 }
 
 let canShoot = true;
@@ -104,14 +152,19 @@ function handleShooting(delta) {
   shootCooldown -= delta;
   if (space && shootCooldown <= 0) {
     shoot();
-    shootCooldown = player.shooting_speed / 10; // przeliczenie zależne od gry
+    shootCooldown = player.shooting_speed / 10;
   }
 }
 
 // Collision
 function isColliding(a, b) {
+  const marginX = b.w * 0.2;
+  const marginY = b.h * 0.2;
   return (
-    a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y
+    a.x < b.x + b.w - marginX &&
+    a.x + a.w > b.x + marginX &&
+    a.y < b.y + b.h - marginY &&
+    a.y + a.h > b.y + marginY
   );
 }
 
@@ -144,7 +197,7 @@ function drawLevelUp() {
     })`;
     ctx.fillText("LEVEL UP!", canvas.width / 2, canvas.height / 2);
 
-    // Dodaj numer poziomu pod napisem "LEVEL UP!"
+    //"LEVEL UP!"
     ctx.font = "bold 18px Arial";
     ctx.shadowBlur = 10;
     ctx.fillStyle = "rgba(255,255,255,0.95)";
@@ -175,15 +228,60 @@ function drawExplosions() {
   }
 }
 
+let playerExplosion = null;
+let pendingGameOver = false;
+
+function drawPlayerExplosion() {
+  if (playerExplosion) {
+    const ex = playerExplosion;
+    ctx.save();
+    ctx.translate(ex.x + ex.w / 2, ex.y + ex.h / 2);
+    const scaledW = ex.w * ex.scale;
+    const scaledH = ex.h * ex.scale;
+    ctx.drawImage(
+      gameOverExplosionFrames[ex.frameIndex],
+      -scaledW / 2,
+      -scaledH / 2,
+      scaledW,
+      scaledH
+    );
+    ctx.restore();
+  }
+}
+
 function increaseDifficulty() {
   difficultyLevel++;
   increaseEnemiesDifficulty();
+
+  //Level UP
+  if (!isMuted) {
+    try {
+      levelUpSound.currentTime = 0;
+      levelUpSound.play();
+    } catch (e) {}
+  }
 
   showLevelUp = true;
   levelUpTimer = 1.4;
 }
 
 function update(delta) {
+  if (playerExplosion) {
+    playerExplosion.frameTimer++;
+    if (playerExplosion.frameTimer >= playerExplosion.frameDelay) {
+      playerExplosion.frameIndex++;
+      playerExplosion.frameTimer = 0;
+      if (playerExplosion.frameIndex >= gameOverExplosionFrames.length) {
+        playerExplosion = null;
+        if (pendingGameOver) {
+          saveScore(playerName, score);
+          window.location.reload();
+        }
+      }
+    }
+    return;
+  }
+
   if (gameOver) return;
 
   if (showLevelUp) {
@@ -217,7 +315,7 @@ function update(delta) {
   // Enemies
   updateEnemies(delta);
 
-  // Power-upy (szybkie strzelanie)
+  // Power-upy
   for (let i = powerups.length - 1; i >= 0; i--) {
     powerups[i].y += powerups[i].speed * delta * 60;
     if (powerups[i].y > canvas.height) {
@@ -237,7 +335,7 @@ function update(delta) {
     }
   }
 
-  // Power-upy (tarcza)
+  // Power-upy
   for (let i = shieldPowerups.length - 1; i >= 0; i--) {
     shieldPowerups[i].y += shieldPowerups[i].speed * delta * 60;
     if (shieldPowerups[i].y > canvas.height) {
@@ -256,7 +354,7 @@ function update(delta) {
     }
   }
 
-  // Efekt power-upa (szybkie strzelanie)
+  // Efekt power-upa
   if (powerupActive) {
     powerupTimer -= delta;
     if (powerupTimer <= 0) {
@@ -277,7 +375,6 @@ function update(delta) {
   for (let i = enemies.length - 1; i >= 0; i--) {
     for (let j = bullets.length - 1; j >= 0; j--) {
       if (isColliding(enemies[i], bullets[j])) {
-        // Szansa na drop power-upa (szybkie strzelanie, np. 10%)
         if (Math.random() < 0.08) {
           powerups.push({
             x: enemies[i].x + enemies[i].w / 2 - 16,
@@ -287,7 +384,6 @@ function update(delta) {
             speed: 2.5,
           });
         }
-        // Szansa na drop power-upa (tarcza, np. 7%)
         if (Math.random() < 0.05) {
           shieldPowerups.push({
             x: enemies[i].x + enemies[i].w / 2 - 16,
@@ -308,6 +404,13 @@ function update(delta) {
           frameDelay: 5,
           scale: 0.7 + Math.random() * 0.8,
         });
+
+        if (!isMuted) {
+          try {
+            explosionSound.currentTime = 0;
+            explosionSound.play();
+          } catch (e) {}
+        }
 
         enemies.splice(i, 1);
         bullets.splice(j, 1);
@@ -330,12 +433,28 @@ function update(delta) {
   // Enemy-player collision
   for (const e of enemies) {
     if (isColliding(e, player)) {
-      if (shieldActive) continue; // Gracz nieśmiertelny
+      if (shieldActive) continue;
+
+      if (!isMuted) {
+        try {
+          playerExplosionSound.currentTime = 0;
+          playerExplosionSound.play();
+        } catch (e) {}
+      }
+
+      playerExplosion = {
+        x: player.x,
+        y: player.y,
+        w: player.w,
+        h: player.h,
+        frameIndex: 0,
+        frameTimer: 0,
+        frameDelay: 6,
+        scale: 1.5,
+      };
+
       gameOver = true;
-      setTimeout(() => {
-        saveScore(playerName, score);
-        window.location.reload();
-      }, 100);
+      pendingGameOver = true;
     }
   }
 
@@ -422,15 +541,19 @@ function draw() {
 
   drawBackground();
 
-  drawPlayer(ctx, playerImage, playerImageMove);
-  drawShield(); // Rysuj tarczę jeśli aktywna
+  if (!playerExplosion) {
+    drawPlayer(ctx, playerImage, playerImageMove);
+    drawShield();
+  }
   drawBullets();
   drawEnemies(ctx);
   drawExplosions();
   drawPowerups();
   drawLevelUp();
 
-  // Efekt aktywnego power-upa
+  drawPlayerExplosion();
+
+  //power-upa
   if (powerupActive) {
     ctx.save();
     ctx.font = "bold 18px Arial";
@@ -467,7 +590,9 @@ function loop(currentTime = 0) {
   update(delta);
   draw();
 
-  if (!gameOver) requestAnimationFrame(loop);
+  if (!gameOver || playerExplosion) {
+    requestAnimationFrame(loop);
+  }
 }
 
 loop();

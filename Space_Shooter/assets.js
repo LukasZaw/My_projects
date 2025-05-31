@@ -58,3 +58,24 @@ powerupImage.src = "Images/Powerup_01.png";
 
 export const shieldPowerupImage = new Image();
 shieldPowerupImage.src = "Images/Powerup_04.png";
+
+export const gameOverExplosionFrames = [
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+];
+gameOverExplosionFrames[0].src = "Images/GameOver_Explosion_01.png";
+gameOverExplosionFrames[1].src = "Images/GameOver_Explosion_02.png";
+gameOverExplosionFrames[2].src = "Images/GameOver_Explosion_03.png";
+gameOverExplosionFrames[3].src = "Images/GameOver_Explosion_04.png";
+gameOverExplosionFrames[4].src = "Images/GameOver_Explosion_05.png";
+gameOverExplosionFrames[5].src = "Images/GameOver_Explosion_06.png";
+gameOverExplosionFrames[6].src = "Images/GameOver_Explosion_07.png";
+gameOverExplosionFrames[7].src = "Images/GameOver_Explosion_08.png";
+gameOverExplosionFrames[8].src = "Images/GameOver_Explosion_09.png";
