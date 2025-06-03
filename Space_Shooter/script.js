@@ -330,8 +330,8 @@ function update(delta) {
     ) {
       powerups.splice(i, 1);
       powerupActive = true;
-      powerupTimer = 7;
-      player.shooting_speed = 3;
+      powerupTimer = 6;
+      player.shooting_speed = 2.5;
     }
   }
 
@@ -375,7 +375,7 @@ function update(delta) {
   for (let i = enemies.length - 1; i >= 0; i--) {
     for (let j = bullets.length - 1; j >= 0; j--) {
       if (isColliding(enemies[i], bullets[j])) {
-        if (Math.random() < 0.08) {
+        if (Math.random() < 0.06) {
           powerups.push({
             x: enemies[i].x + enemies[i].w / 2 - 16,
             y: enemies[i].y + enemies[i].h / 2 - 16,
@@ -384,7 +384,7 @@ function update(delta) {
             speed: 2.5,
           });
         }
-        if (Math.random() < 0.05) {
+        if (Math.random() < 0.04) {
           shieldPowerups.push({
             x: enemies[i].x + enemies[i].w / 2 - 16,
             y: enemies[i].y + enemies[i].h / 2 - 16,
