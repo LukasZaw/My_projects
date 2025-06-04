@@ -1,6 +1,6 @@
-# 🚀 My Projects  
+# 🚀 My Projects
 
-Welcome to my collection of web applications! This repo showcases my projects, where I explore and implement various technologies.  
+Welcome to my collection of web applications! This repo showcases my projects, where I explore and implement various technologies.
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/LukasZaw/My_projects?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/LukasZaw/My_projects?style=social)
@@ -8,23 +8,50 @@ Welcome to my collection of web applications! This repo showcases my projects, w
 
 ---
 
-## 📌 **Projects**  
+## 📌 **Projects**
 
+### 🏠 **Projects Home Page**
 
-### 1. 🎮 **Breakout Game**  
-📖 **Description:** A browser-based game inspired by the classic Breakout, built using JavaScript.  
-🛠 **Technologies:** HTML, CSS, JavaScript (Canvas API)  
-🔗 **Play Here:** [Live](https://lukaszaw.github.io/My_projects/Breakout_game/)
+📖 **Description:** Main landing page for all my projects with a modern, interactive design.  
+🔗 **Open:** [index.html](https://lukaszaw.github.io/My_projects/)
 
 🖼 **Preview:**  
-<img src="images/breakout_game.png" width="600px">  
+<img src="images/projects_home.png" width="600px">
 
-### 2. 📄 **Flexbox Website Template**  
-📖 **Description:** A simple and responsive website template using HTML & CSS (Flexbox). This template includes a basic layout with a header, navigation, main content area, and footer.  
-🛠 **Technologies:** HTML, CSS (FlexBox)  
-🖼 **Preview:** [Live](https://lukaszaw.github.io/My_projects/Flexbox_website_template/)
+### 1. 🎨 **Tailwind Website**
 
-<img src="images/flexbox.png" width="600px">  
+📖 **Description:** A modern, responsive website built with Tailwind CSS.  
+🛠 **Technologies:** HTML, Tailwind CSS  
+🔗 **Live Demo:** [Tailwind Website](https://lukaszaw.github.io/My_projects/Tailwind_website/)
 
+🖼 **Preview:**  
+<img src="images/tailwind_website.png" width="600px">
+
+### 2. 🌐 **SEO Website**
+
+📖 **Description:** A modern, SEO-optimized website template with best practices for search engine visibility.  
+🛠 **Technologies:** HTML, CSS  
+🔗 **Live Demo:** [SEO Website](https://lukaszaw.github.io/Website-SEO/)
+
+🖼 **Preview:**  
+<img src="images/seo_website.png" width="600px">
+
+### 3. ☁️ **Weather Station**
+
+📖 **Description:** A web app that displays real-time sensor data from a weather station.  
+🛠 **Technologies:** HTML, CSS, JavaScript, Node.js, Arduino, MySQL  
+🔗 **Live Demo:** [Weather Station](https://heroku-nodejs-8802db802387.herokuapp.com/sensors.html)
+
+🖼 **Preview:**  
+<img src="images/weather_station.png" width="600px">
+
+### 4. 🚀 **Space Shooter**
+
+📖 **Description:** A simple arcade-style space shooter game for the browser.  
+🛠 **Technologies:** HTML, CSS, JavaScript (Canvas API)  
+🔗 **Play Here:** [Live](https://lukaszaw.github.io/My_projects/Space_Shooter/)
+
+🖼 **Preview:**  
+<img src="images/space_shooter.png" width="600px">
 
 ---

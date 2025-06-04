@@ -4,58 +4,48 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Projects</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f9;
-        color: #333;
-        margin: 0;
-        padding: 0;
-      }
-      h1 {
-        text-align: center;
-        margin-top: 20px;
-        color: #444;
-      }
-      ul {
-        list-style-type: none;
-        padding: 0;
-        max-width: 600px;
-        margin: 20px auto;
-      }
-      li {
-        background: #fff;
-        margin: 10px 0;
-        padding: 15px;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s, box-shadow 0.2s;
-      }
-      li:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-      a {
-        text-decoration: none;
-        color: #007bff;
-        font-weight: bold;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>My Projects</h1>
-    <ul>
-      <li><a href="Tailwind_website/index.html">Tailwind Website</a></li>
-      <li><a href="Breakout_game/index.html">Breakout game</a></li>
-      <li>
-        <a href="Flexbox_website_template/index.html"
-          >Flexbox website template</a
+    <div class="glass">
+      <h1>🚀 My Projects</h1>
+      <ul>
+        <li
+          onclick="window.open('Tailwind_website/index.html', '_blank')"
+          style="cursor: pointer"
         >
-      </li>
-      <li><a href="Space_Shooter/index.html">Space Shooter</a></li>
-    </ul>
+          <span class="icon"><i class="fa-brands fa-css3-alt"></i></span>
+          <span>Tailwind Website</span>
+        </li>
+        <li
+          onclick="window.open('https://lukaszaw.github.io/Website-SEO/', '_blank')"
+          style="cursor: pointer"
+        >
+          <span class="icon"
+            ><i class="fa-solid fa-magnifying-glass-chart"></i
+          ></span>
+          <span>SEO Website</span>
+        </li>
+        <li
+          onclick="window.open('https://heroku-nodejs-8802db802387.herokuapp.com/sensors.html', '_blank')"
+          style="cursor: pointer"
+        >
+          <span class="icon"><i class="fa-solid fa-cloud-sun"></i></span>
+          <span>Weather Station</span>
+        </li>
+        <li
+          onclick="window.open('Space_Shooter/index.html', '_blank')"
+          style="cursor: pointer"
+        >
+          <span class="icon"><i class="fa-solid fa-rocket"></i></span>
+          <span>Space Shooter</span>
+        </li>
+      </ul>
+    </div>
+    <script src="background-effect.js"></script>
   </body>
 </html>
